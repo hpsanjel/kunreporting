@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block title %}Grant Applications - Company Report System{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Grant Applications</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a href="{{ url_for('add_grant') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Add Grant Application
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        {% if grants %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Project Title</th>
+                        <th>Branch</th>
+                        <th>Applied By</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Applied Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for grant in grants %}
+                    <tr>
+                        <td><strong>{{ grant.project_title }}</strong></td>
+                        <td>
+                            <span class="badge bg-info">{{ grant.branch }}</span>
+                        </td>
+                        <td>User ID {{ grant.applied_by }}</td>
+                        <td>NOK {{ "{:,.2f}".format(grant.amount) }}</td>
+                        <td>
+                            {% if grant.status == 'Applied' %}
+                                <span class="status-badge status-applied">{{ grant.status }}</span>
+                            {% elif grant.status == 'Granted' %}
+                                <span class="status-badge status-granted">{{ grant.status }}</span>
+                            {% elif grant.status == 'Rejected' %}
+                                <span class="status-badge status-rejected">{{ grant.status }}</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ grant.created_at.strftime('%Y-%m-%d') }}</td>
+                        <td>
+                            <a href="{{ url_for('edit_grant', id=grant.id) }}" class="btn btn-sm btn-outline-primary btn-action">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="{{ url_for('delete_grant', id=grant.id) }}" class="btn btn-sm btn-outline-danger btn-action" 
+                               onclick="return confirm('Are you sure you want to delete this grant application?')">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card bg-warning bg-opacity-10">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Applied</h5>
+                        <h3 class="text-warning">{{ grants|selectattr('status', 'equalto', 'Applied')|list|length }}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-success bg-opacity-10">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Granted</h5>
+                        <h3 class="text-success">{{ grants|selectattr('status', 'equalto', 'Granted')|list|length }}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-danger bg-opacity-10">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Rejected</h5>
+                        <h3 class="text-danger">{{ grants|selectattr('status', 'equalto', 'Rejected')|list|length }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        {% else %}
+        <div class="text-center py-5">
+            <i class="fas fa-hand-holding-usd fa-3x text-muted mb-3"></i>
+            <h5 class="text-muted">No grant applications found</h5>
+            <p class="text-muted">Start by adding your first grant application.</p>
+            <a href="{{ url_for('add_grant') }}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Add First Grant Application
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

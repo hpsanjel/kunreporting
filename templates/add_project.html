@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Add Project - Company Report System{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Add New Project</h1>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title mb-0">
+            <i class="fas fa-plus"></i> Project Information
+        </h5>
+    </div>
+    <div class="card-body">
+        <form method="POST">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Project Title *</label>
+                        <input type="text" class="form-control" id="title" name="title" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="branch" class="form-label">Branch *</label>
+                        <select class="form-select" id="branch" name="branch" required>
+                            <option value="">Select Branch</option>
+                            <option value="Oslo">Oslo</option>
+                            <option value="Bergen">Bergen</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="description" class="form-label">Description *</label>
+                <textarea class="form-control" id="description" name="description" rows="8" required></textarea>
+                <div class="form-text">Provide a detailed description of the project.</div>
+            </div>
+            
+            <div class="d-flex justify-content-between">
+                <a href="{{ url_for('projects') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to Projects
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Save Project
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

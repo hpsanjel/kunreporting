@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: company_reports
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  web:
+    build: .
+    ports:
+      - "5001:5001"
+    environment:
+      - FLASK_CONFIG=production
+      - DATABASE_URL=postgresql://postgres:password@postgres:5432/company_reports
+      - SECRET_KEY=your-secret-key-change-in-production
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./app.py:/app/app.py
+      - ./config.py:/app/config.py
+      - ./templates:/app/templates
+      - ./static:/app/static
+    command: python3 app.py
+
+volumes:
+  postgres_data:

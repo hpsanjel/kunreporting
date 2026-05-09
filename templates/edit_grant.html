@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Grant Application - Company Report System{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Edit Grant Application</h1>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title mb-0">
+            <i class="fas fa-edit"></i> Grant Application Information
+        </h5>
+    </div>
+    <div class="card-body">
+        <form method="POST">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="project_title" class="form-label">Project Title *</label>
+                        <input type="text" class="form-control" id="project_title" name="project_title" value="{{ grant.project_title }}" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="branch" class="form-label">Branch *</label>
+                        <select class="form-select" id="branch" name="branch" required>
+                            <option value="">Select Branch</option>
+                            <option value="Oslo" {% if grant.branch == 'Oslo' %}selected{% endif %}>Oslo</option>
+                            <option value="Bergen" {% if grant.branch == 'Bergen' %}selected{% endif %}>Bergen</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="amount" class="form-label">Amount (NOK) *</label>
+                        <input type="number" class="form-control" id="amount" name="amount" step="0.01" min="0" value="{{ grant.amount }}" required>
+                        <div class="form-text">Enter the amount in Norwegian Kroner (NOK).</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Status *</label>
+                        <select class="form-select" id="status" name="status" required>
+                            <option value="">Select Status</option>
+                            <option value="Applied" {% if grant.status == 'Applied' %}selected{% endif %}>Applied</option>
+                            <option value="Granted" {% if grant.status == 'Granted' %}selected{% endif %}>Granted</option>
+                            <option value="Rejected" {% if grant.status == 'Rejected' %}selected{% endif %}>Rejected</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="d-flex justify-content-between">
+                <a href="{{ url_for('grants') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to Grant Applications
+                </a>
+                <div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Update Grant Application
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card mt-4">
+    <div class="card-header">
+        <h5 class="card-title mb-0">
+            <i class="fas fa-info-circle"></i> Grant Application Details
+        </h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>Applied Date:</strong> {{ grant.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
+                <p><strong>Last Updated:</strong> {{ grant.updated_at.strftime('%Y-%m-%d %H:%M') }}</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Applied By:</strong> User ID {{ grant.applied_by }}</p>
+                <p><strong>Grant ID:</strong> {{ grant.id }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

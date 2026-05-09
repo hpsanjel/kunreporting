@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}Add User - Company Report System{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Add New User</h1>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title mb-0">
+            <i class="fas fa-plus"></i> User Information
+        </h5>
+    </div>
+    <div class="card-body">
+        <form method="POST">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username *</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                        <div class="form-text">Unique username for login.</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email *</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                        <div class="form-text">User's email address.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="full_name" class="form-label">Full Name *</label>
+                        <input type="text" class="form-control" id="full_name" name="full_name" required>
+                        <div class="form-text">User's complete name.</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="branch" class="form-label">Branch *</label>
+                        <select class="form-select" id="branch" name="branch" required>
+                            <option value="">Select Branch</option>
+                            <option value="Oslo">Oslo</option>
+                            <option value="Bergen">Bergen</option>
+                        </select>
+                        <div class="form-text">Assign user to a specific branch.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password *</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                        <div class="form-text">Initial password for the user.</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="confirm_password" class="form-label">Confirm Password *</label>
+                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                        <div class="form-text">Re-enter password to confirm.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="is_admin" name="is_admin">
+                    <label class="form-check-label" for="is_admin">
+                        <i class="fas fa-user-shield"></i> Administrator Access
+                    </label>
+                    <div class="form-text">Administrators have full access to all features including user management and audit logs.</div>
+                </div>
+            </div>
+            
+            <div class="alert alert-warning">
+                <i class="fas fa-exclamation-triangle"></i>
+                <strong>Important:</strong> 
+                <ul class="mb-0 mt-2">
+                    <li>Staff users can manage projects and grant applications</li>
+                    <li>Administrators can manage users, edit introduction, and view audit logs</li>
+                    <li>All user management actions are logged in the audit trail</li>
+                </ul>
+            </div>
+            
+            <div class="d-flex justify-content-between">
+                <a href="{{ url_for('users') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to Users
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Create User
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+document.getElementById('confirm_password').addEventListener('input', function() {
+    const password = document.getElementById('password').value;
+    const confirmPassword = this.value;
+    
+    if (password !== confirmPassword) {
+        this.setCustomValidity('Passwords do not match');
+    } else {
+        this.setCustomValidity('');
+    }
+});
+</script>
+{% endblock %}

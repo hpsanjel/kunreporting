@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Company Report System{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Dashboard</h1>
+</div>
+
+<div class="row">
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Total Projects
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ projects_count }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-project-diagram fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                            Grants Applied
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ grants_applied }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-clock fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                            Grants Granted
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ grants_granted }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-check fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-danger shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                            Grants Rejected
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ grants_rejected }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-times fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Quick Actions</h6>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('add_project') }}" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add New Project
+                    </a>
+                    <a href="{{ url_for('add_grant') }}" class="btn btn-success">
+                        <i class="fas fa-plus"></i> Add Grant Application
+                    </a>
+                    {% if current_user.is_admin %}
+                    <a href="{{ url_for('introduction') }}" class="btn btn-info">
+                        <i class="fas fa-edit"></i> Edit Introduction
+                    </a>
+                    {% endif %}
+                    <div class="btn-group" role="group">
+                        <a href="{{ url_for('generate_pdf_report') }}" class="btn btn-outline-primary">
+                            <i class="fas fa-file-pdf"></i> PDF Report
+                        </a>
+                        <a href="{{ url_for('generate_word_report') }}" class="btn btn-outline-secondary">
+                            <i class="fas fa-file-word"></i> Word Report
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">System Information</h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p><strong>User:</strong> {{ current_user.full_name }}</p>
+                        <p><strong>Branch:</strong> {{ current_user.branch }}</p>
+                        <p><strong>Role:</strong> {% if current_user.is_admin %}Administrator{% else %}Staff{% endif %}</p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p><strong>System:</strong> Company Report System</p>
+                        <p><strong>Version:</strong> 1.0</p>
+                        <p><strong>Location:</strong> Norway</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
