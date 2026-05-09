@@ -546,4 +546,7 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()
         create_admin_user()
-    app.run(debug=True, host='0.0.0.0', port=5001)
+    
+    # Use debug mode based on configuration
+    debug_mode = app.config.get('DEBUG', False)
+    app.run(debug=debug_mode, host='0.0.0.0', port=5001)

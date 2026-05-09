@@ -8,7 +8,11 @@ class Config:
     
     # Database configuration
     if os.environ.get('DATABASE_URL'):
-        SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+        database_url = os.environ.get('DATABASE_URL')
+        # Convert postgres:// to postgresql:// for SQLAlchemy compatibility
+        if database_url.startswith("postgres://"):
+            database_url = database_url.replace("postgres://", "postgresql://", 1)
+        SQLALCHEMY_DATABASE_URI = database_url
     elif os.environ.get('USE_SQLITE', '').lower() == 'true':
         # SQLite fallback for development
         SQLALCHEMY_DATABASE_URI = 'sqlite:///company_reports.db'
@@ -29,6 +33,10 @@ class DevelopmentConfig(Config):
 
 class ProductionConfig(Config):
     DEBUG = False
+    # Additional production security settings
+    SESSION_COOKIE_SECURE = True
+    SESSION_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_SAMESITE = 'Lax'
 
 class TestingConfig(Config):
     TESTING = True
